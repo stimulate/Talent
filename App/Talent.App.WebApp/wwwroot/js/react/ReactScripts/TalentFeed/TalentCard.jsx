@@ -10,22 +10,25 @@ export default class TalentCard extends React.Component {
     constructor(props) {
         super(props);
        
-        this.state = {   
-          isDetail: false,
-          talent: {},
+        this.state = {            
+          talent: [],
         }      
       this.detail = this.detail.bind(this);      
     } 
       
-  detail(d) {
-    var current = this.state.isDetail ? {} : d;
-      this.setState(
-        preState => ({
-          isDetail: !preState.isDetail,
-          talent: current,
-        }),
-      )
-    }
+  detail(d) {  
+        this.setState(pre => ({
+          talent: [...pre.talent, { ...d }]
+        })
+        )      
+  }
+
+  back = (d) => {
+    this.setState(pre => ({
+      talent: pre.talent.filter(s => s.id != d.id),
+    })
+    )
+  }
 
   info = (d) => {
     return (
@@ -50,12 +53,6 @@ export default class TalentCard extends React.Component {
       )
   }
 
-  cameraIcon = () => {
-    return (
-      <Icon name='video camera' link onClick={this.detail} />
-      )
-  }
-
   render() {
 
     const items = this.props.data.map(d =>
@@ -66,15 +63,16 @@ export default class TalentCard extends React.Component {
         <List.Item key={d.id}>      
          <List.Content>
                 <List.Header as='a'>{d.name} <span className="right floated"><Icon name='star'/></span> </List.Header>
-                <List.Description>            
-              {this.state.talent.id === d.id ? this.info(this.state.talent) :
+                  <List.Description>
+                    {JSON.stringify(this.state.talent).indexOf(JSON.stringify(d)) === -1 ? 
                       <video style={{ width: '100%' }} src={d.videoUrl === null ? "https://public.sn.files.1drv.com/y4mvWOelLNVbIlCJztUUCt5KPeUgfQ4Jk2QYxLTkcrQRvG7cSv-m0i-FWhQuK4A1AimX9v38ACZoh1e9YUcgfoNTBvIXcmIjOHkDZR6qf9OrBrN_yslIsLV3wjfZVGSfndg0qm2QJvqlMXBU9YgSGpOk6ubb4iv8ug4xId6LkWw6AeFMne126YSbsGOcQURgebD/night.mp4" : d.videoUrl}   />
-              }
+                      : this.info(d)
+                    }
                 </List.Description>
                 <List.Description>
                   <Grid relaxed columns={4}>
                     <Grid.Column>
-                        {this.state.talent.id === d.id ?  this.cameraIcon() : <Icon name='user' link onClick={e => this.detail(d, e)} />}
+                        {JSON.stringify(this.state.talent).indexOf(JSON.stringify(d)) === -1 ? <Icon name='user' link onClick={e => this.detail(d, e)} /> : <Icon name='video camera' link onClick={e => this.back(d, e)} /> }
                     </Grid.Column>
                     <Grid.Column>
                       <Icon name='file pdf outline' />
@@ -87,9 +85,9 @@ export default class TalentCard extends React.Component {
                     </Grid.Column>
                   </Grid>                    
                 </List.Description>
-            {d.skills===[]? d.skills.map(s => (
-              <Button key={s.id} content={s.name} basic size='mini' />
-            )) : "No skills yet"}
+                  {d.skills === [] ? "No skills yet" : d.skills.map(s => (
+              <Button key={s.id} content={s.name} basic size='tiny' />
+            )) }
       </List.Content>
         </List.Item>
         </List>
