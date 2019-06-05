@@ -49,7 +49,7 @@ export default class TalentFeed extends React.Component {
         }
       this.loadData = this.loadData.bind(this);
       this.loadTalentData = this.loadTalentData.bind(this);
-        this.init = this.init.bind(this);
+      this.init = this.init.bind(this);
 
   };
   async loadData() {
@@ -65,18 +65,19 @@ export default class TalentFeed extends React.Component {
   async loadTalentData() {
     var link = 'http://localhost:60290/profile/profile/getTalentList';
     var res = await xhr.get(link);
-    console.log("talentls", res.data.talent);
+
+    console.log("talentls", res.data.data);
     if (res != null) {
       this.setState({
-        loadTalents: res.data.talent,
+        loadTalents: res.data.data,
       })
-    }          
+    }    
   }
 
     init() {
         let loaderData = TalentUtil.deepCopy(this.state.loaderData)
         loaderData.isLoading = false;
-        this.setState({ loaderData });//comment this
+        this.setState({ loaderData });
     }
 
     componentDidMount() {
@@ -94,8 +95,8 @@ export default class TalentFeed extends React.Component {
               <div className="column four wide">
                 <CompanyProfile loadEmployers={this.state.loadEmployers} />
                 </div>
-                <div className="column eight wide">
-                <TalentCard/>
+              <div className="column eight wide">
+                <TalentCard data={this.state.loadTalents}  />
                 </div>
                 <div className="column four wide">                
                 <div className="content">

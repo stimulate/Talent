@@ -3,7 +3,7 @@ import React from 'react'
 import Cookies from 'js-cookie'
 import uuidv1 from 'uuid/v1'
 import {
-  Table, Button, Icon, Dropdown, Form
+  Table, Button, Icon, Dropdown, Form,
 } from 'semantic-ui-react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -16,8 +16,8 @@ export default class Experience extends React.Component {
     const edata = {
       company: '',
       position: '',
-      start: '',
-      end: '',
+      start: null,
+      end: null,
       responsibilities: '' 
     }
     this.state = {
@@ -95,17 +95,19 @@ export default class Experience extends React.Component {
 
   handleStartChange(date){
     var d = this.state.data
+    var vDate = Date.parse(date)
     this.setState({
       start: date,
-      data: {...d, start: date}
+      data: {...d, start: vDate}
     })
   }
 
   handleEndChange(date){
     var d = this.state.data
+    var vDate = Date.parse(date)
     this.setState({
       end: date,
-      data : {...d, end: date}
+      data : {...d, end: vDate}
     })
   }
 
@@ -176,8 +178,8 @@ export default class Experience extends React.Component {
           <Table.Cell>{l.company}</Table.Cell>
           <Table.Cell>{l.position}</Table.Cell>
           <Table.Cell>{l.responsibilities}</Table.Cell>
-          <Table.Cell>{moment(l.start).format('Do MMM, YYYY')}</Table.Cell>
-          <Table.Cell>{moment(l.end).format('Do MMM, YYYY')}</Table.Cell>
+          <Table.Cell>{moment(l.start.toString()).format('Do MMM, YYYY')}</Table.Cell>
+          <Table.Cell>{moment(l.end.toString()).format('Do MMM, YYYY')}</Table.Cell>
           <Table.Cell>
             <Icon name="edit" link="true" onClick={e => this.edit(l, e)} />
             <Icon name="delete" link="true" onClick={e => this.del(l, e)} />

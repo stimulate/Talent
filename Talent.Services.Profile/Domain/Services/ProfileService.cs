@@ -25,7 +25,7 @@ namespace Talent.Services.Profile.Domain.Services
         IRepository<UserCertification> _userCertificationRepository;
         IRepository<User> _userRepository;        
         IRepository<Employer> _employerRepository;
-        IRepository<Job> _jobRepository;
+        IRepository<Job> _jobRepository;        
         IRepository<Recruiter> _recruiterRepository;
         IFileService _fileService;
 
@@ -34,7 +34,7 @@ namespace Talent.Services.Profile.Domain.Services
                               IRepository<UserLanguage> userLanguageRepository,
                               IRepository<UserSkill> userSkillRepository,
                               IRepository<UserExperience> userExperienceRepository,
-                              IRepository<UserEducation> userEducationRepository,
+                              IRepository<UserEducation> userEducationRepository,                              
                               IRepository<UserCertification> userCertificationRepository,
                               IRepository<User> userRepository,
                               IRepository<Employer> employerRepository,
@@ -645,8 +645,8 @@ namespace Talent.Services.Profile.Domain.Services
         public async Task<IEnumerable<TalentSnapshotViewModel>> GetFullTalentList()
         {
             List<TalentSnapshotViewModel> talents = new List<TalentSnapshotViewModel>();
-            List<User> ls = (await _userRepository.FindAsync(_ => _.FirstName != null)).ToList();
-
+            List<User> ls = (await _userRepository.Get(_ => true)).ToList();
+            
             foreach (var profile in ls)
             {
                 var result = new TalentSnapshotViewModel

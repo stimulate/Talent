@@ -16,8 +16,8 @@ namespace Talent.Common.Models
         public String Company { get; set; }
         public String Position { get; set; }
         public String Responsibilities { get; set; }
-        public String Start { get; set; }
-        public String End { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

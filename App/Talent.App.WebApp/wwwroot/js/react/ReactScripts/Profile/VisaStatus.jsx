@@ -48,8 +48,8 @@ export default class VisaStatus extends React.Component {
   save() {
     this.props.saveProfileData({
       visaStatus: this.state.visa,
-      visaExpiryDate: this.state.expiry
-    })
+      visaExpiryDate: this.state.expiry,
+    });
     this.edit();
   }
    edit() {        

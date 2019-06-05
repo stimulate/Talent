@@ -7,7 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace Talent.Common.Models
-{    
+{
+    [BsonIgnoreExtraElements]
     public class User : IMongoCommon
     {
         public Guid UId { get; set; }
@@ -28,7 +29,7 @@ namespace Talent.Common.Models
         public string Nationality { get; set; }
         public string VisaStatus { get; set; }
         public JobSeekingStatus JobSeekingStatus { get; set; }
-        public string VisaExpiryDate { get; set; }
+        public DateTime? VisaExpiryDate { get; set; }        
         public string Summary { get; set; }
         public string Description { get; set; }
 

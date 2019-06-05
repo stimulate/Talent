@@ -40,7 +40,7 @@ export default class AccountProfile extends React.Component {
         experience: [],
         certifications: [],
         visaStatus: '',
-        visaExpiryDate: '',
+        visaExpiryDate: null,
         profilePhoto: '',
         profilePhotoUrl: '',
         linkedAccounts: {

@@ -12,8 +12,7 @@ namespace Talent.Common.Services
 {
     public class Repository<T> : IRepository<T> where T : IMongoCommon, new()
     {
-        private readonly IMongoDatabase _database;
-        private IMongoCollection<T> _collection => _database.GetCollection<T>(typeof(T).Name);
+        private readonly IMongoDatabase _database;       
 
         public Repository(IMongoDatabase database)
         {
@@ -21,6 +20,8 @@ namespace Talent.Common.Services
         }
 
         public IQueryable<T> Collection => _collection.AsQueryable();
+
+        private IMongoCollection<T> _collection => _database.GetCollection<T>(typeof(T).Name);
 
         public async Task Add(T entity)
         {
@@ -62,16 +63,30 @@ namespace Talent.Common.Services
 
         }
 
+        public async Task<IEnumerable<T>> GetData(Expression<Func<T, bool>> predicate)
+        {
+            for (int i = 0; i < 5; ++i)
+            {
+                try
+                {                                       
+                    return _collection.AsQueryable().Where(predicate).AsEnumerable();
+                }
+                catch (MongoException e)
+                {
+                    await Task.Delay(1000);
+                }
+            }
+            throw new ApplicationException("Hit retry limit while trying to query MongoDB");
+        }
+
+
         public async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> predicate)
         {
             for (int i = 0; i < 5; ++i)
             {
                 try
                 {
-                    var col =  _collection.AsQueryable().Where(predicate).AsEnumerable();
-                    Console.WriteLine(col);
-                    return col;
-                    
+                    return _collection.AsQueryable().Where(predicate).AsEnumerable();
                 }
                 catch (MongoException e)
                 {

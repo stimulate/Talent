@@ -19,7 +19,7 @@ namespace Talent.Services.Profile.Models
         public List<AddExperienceViewModel> WorkExperience { get; set; }
         public List<AddSkillViewModel> Skills { get; set; }
         public string VisaStatus { get; set; }
-        public string VisaExpiryDate { get; set; }
+        public DateTime? VisaExpiryDate { get; set; }
         public string Education { get; set; }
         public string CvUrl { get; set; }
         public string VideoUrl { get; set; }
